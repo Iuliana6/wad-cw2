@@ -26,7 +26,9 @@ app.post('/order', function (req, res) {
     });
 })
 app.put('/lessons', function (req, res) {
-
+    db.collection("lesson").updateOne({ subject: req.body.subject }, { $set: { space: req.body.quantity } }, function (err, res) {
+        if (err) throw err
+    })
 })
 app.get('/search', function (req, res) {
 
