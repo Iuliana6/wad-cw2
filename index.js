@@ -9,11 +9,20 @@ const uri = "mongodb+srv://nodejs:nodejs@cluster0.chgmy.mongodb.net/myFirstDatab
 MongoClient.connect(uri, (err, client) => {
     db = client.db('cw2-db')
 })
+
 let logger = (req, res, next) => {
     console.log(req.body);
     next();
 };
+let imageStatic = (req, res, next) => {
+    if(req.path.startsWith("/images")){
+        res.sendFile(req.path,{root:"."})
+    }else{
+        next();
+    }
+}
 app.use(logger)
+app.use(imageStatic)
 app.get('/lessons', function (req, res) {
     db.collection("lesson").find().toArray(function (err, result) {
         if (err) throw err;
