@@ -23,6 +23,9 @@ let imageStatic = (req, res, next) => {
 }
 app.use(logger)
 app.use(imageStatic)
+app.get('/', function(req, res){
+    res.end(JSON.stringify({result:"OK"}))
+})
 app.get('/lessons', function (req, res) {
     db.collection("lesson").find().toArray(function (err, result) {
         if (err) throw err;
