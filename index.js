@@ -31,7 +31,17 @@ app.put('/lessons', function (req, res) {
     })
 })
 app.get('/search', function (req, res) {
-
+    const searchString = req.query.searchString
+    db.collection("lesson").find().toArray(function (err, result) {
+        if (err) throw err;
+        result = result.filter((lesson) => {
+            if (searchString === "") {
+                return true
+            }
+            return lesson.subject.includes(searchString) || lesson.location.includes(searchString);
+        })
+        res.end(JSON.stringify({ result: result }))
+    });
 })
 http.createServer(app).listen(3000); // start the server
 console.log('Server started!')
