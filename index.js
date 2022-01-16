@@ -16,7 +16,14 @@ app.get('/lessons', function (req, res) {
     });
 })
 app.post('/order', function (req, res) {
-
+    db.collection("order").insertOne({
+        name: req.body.name,
+        phoneNumber: req.body.phoneNumber,
+        subject: req.body.subject,
+        quantity: req.body.quantity
+    }, function (err, res) {
+        if (err) throw err;
+    });
 })
 app.put('/lessons', function (req, res) {
 
