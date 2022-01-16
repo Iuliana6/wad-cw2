@@ -15,16 +15,21 @@ let logger = (req, res, next) => {
     next();
 };
 let imageStatic = (req, res, next) => {
-    if(req.path.startsWith("/images")){
-        res.sendFile(req.path,{root:"."})
-    }else{
+    if (req.path.startsWith("/images")) {
+        res.sendFile(req.path, { root: "." })
+    } else {
         next();
     }
 }
 app.use(logger)
 app.use(imageStatic)
-app.get('/', function(req, res){
-    res.end(JSON.stringify({result:"OK"}))
+app.use(function (req, res, next) {     // allow different IP address
+    res.header("Access-Control-Allow-Origin", "*");      // allow different header fields     
+    res.header("Access-Control-Allow-Headers", "*");
+    next();
+});
+app.get('/', function (req, res) {
+    res.end(JSON.stringify({ result: "OK" }))
 })
 app.get('/lessons', function (req, res) {
     db.collection("lesson").find().toArray(function (err, result) {
