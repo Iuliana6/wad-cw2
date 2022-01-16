@@ -60,5 +60,5 @@ app.get('/search', function (req, res) {
         res.end(JSON.stringify({ result: result }))
     });
 })
-http.createServer(app).listen(3000); // start the server
+http.createServer(app).listen(process.env.PORT || 3000); // start the server
 console.log('Server started!')
